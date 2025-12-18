@@ -1,23 +1,32 @@
-import React, { use, useState } from "react";
+import React, {  useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router";
 
 
 import Container from "../../Components/Contaniner/Container";
 import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import useAuth from "../../Hooks/useAuth";
 
 const Login = () => {
-  // const { signInUser } = use(AuthContext);
+  const { signInUser } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
 
-  // const navigation = useNavigate();
-  // const location = useLocation();
+  const navigation = useNavigate();
+  const location = useLocation();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+
+    const {
+      register,
+      handleSubmit,
+      watch,
+      formState: { errors },
+    } = useForm();
+  
+  const handleLogin = (data) => {
+    const email = data.email;
+    const password = data.password;
 
       toast.success("Invalid credential!", { position: "top-right" });
       signInUser(email, password)
@@ -38,29 +47,50 @@ const Login = () => {
         </h2>
         <div className="card bg-base-200 w-full max-w-sm shrink-0 ">
           <div className="card-body">
-            <form onSubmit={handleLogin} className="fieldset">
-              <label className="label ">Email</label>
-              <input
-                name="email"
-                type="email"
-                className="input w-full"
-                placeholder="Email"
-              />
-              <label className="label ">Password</label>
-              <div className="relative">
-                <input
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  className="input w-full"
-                  placeholder="Password"
-                />
-                <span
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="btn bg-transparent border-none right-0 absolute"
-                >
-                  {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
-                </span>
-              </div>
+            <form onSubmit={handleSubmit(handleLogin)} className="fieldset">
+                        <label className="label ">Email</label>
+                        <input
+                          type="text"
+                          className="input w-full"
+                          placeholder="Email"
+                          {...register("email", { required: true })}
+                        />
+                        {errors.email?.type === "required" && (
+                          <p className="text-red-500">Email is Reqiured!</p>
+                        )}
+                        <label className="label ">Password</label>
+                        <div className="relative">
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            className="input w-full"
+                            placeholder="Password"
+                            {...register("password", {
+                              required: true,
+                              minLength: 6,
+                              pattern: /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/,
+                            })}
+                          />
+                          <span
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="btn bg-transparent border-none right-0 absolute"
+                          >
+                            {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
+                          </span>
+                        </div>
+                        {errors.password?.type === "required" && (
+                          <p className="text-red-500">Password is Reqiured!</p>
+                        )}
+                        {errors.password?.type === "minLength" && (
+                          <p className="text-red-500">
+                            Password length must be 6 character or longer!
+                          </p>
+                        )}
+                        {errors.password?.type === "pattern" && (
+                          <p className="text-red-500">
+                            Password must contain at least one uppercase letter and one
+                            lowercase letter.
+                          </p>
+                        )}
               <span>Forgot Password?</span>
               <button
                 type="submit"
