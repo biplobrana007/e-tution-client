@@ -3,17 +3,34 @@ import MyLink from "./MyLink";
 import Logo from "../Logo/Logo";
 import { Link } from "react-router";
 import Container from "../Contaniner/Container";
+import useAuth from "../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
+  const { user, logOut, setUser } = useAuth();
+  console.log(user);
   const links = (
     <>
       <MyLink title="Home" to="/"></MyLink>
       <MyLink title="Tuitions" to="/tuitions"></MyLink>
       <MyLink title="Tutors" to="/tutors"></MyLink>
       <MyLink title="About"></MyLink>
-      <MyLink title="Contact" ></MyLink>
+      <MyLink title="Contact"></MyLink>
     </>
   );
+
+  const handleSignout = () => {
+    logOut()
+      .then(() => {
+        setUser(null);
+        navigation("/");
+        toast.success("Logout Succesfully---");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="bg-base-100 shadow-sm py-2">
       <Container>
@@ -56,9 +73,37 @@ const Navbar = () => {
             <ul className="menu gap-2 menu-horizontal px-1">{links}</ul>
           </div>
           <div className="navbar-end">
-            <Link to="/login" className=" text-primary border px-5 py-2 rounded font-semibold">
-              Login
-            </Link>
+            {user ? (
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-10 rounded-full">
+                    <img
+                      alt="Profile"
+                      src={user && user.photoURL}
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                </div>
+                <ul
+                  tabIndex="0"
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                >
+                  <li><Link to="/dashboard">Dashboard</Link></li>
+                  <li><Link>Profile</Link></li>
+                </ul>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className=" text-primary border px-5 py-2 rounded font-semibold"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </Container>

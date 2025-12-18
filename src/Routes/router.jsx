@@ -6,6 +6,7 @@ import Tuitions from "../Pages/Tuition/Tuitions";
 import Tutors from "../Pages/Tutor/Tutors";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import DashboardLayout from "../Layouts/DashboardLayout";
 
 
 
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path:"register",
     Component: Register
+  },
+  {
+    path:"dashboard",
+    Component: DashboardLayout,
   }
 ]);
 export default router;
