@@ -14,25 +14,21 @@ const Login = () => {
   // const navigation = useNavigate();
   // const location = useLocation();
 
-const handleLogin =(e)=>{
-  e.preventDefault();
-  toast.success("Login successfully......", { position: "top-right" })
-}
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
-  //   const email = e.target.email.value;
-  //   const password = e.target.password.value;
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
 
-  //     toast.success("Invalid credential!", { position: "top-right" });
-  //     signInUser(email, password)
-  //     .then(() => {
-  //       // Signed in
-  //       toast.success("Login successfully......", { position: "top-right" });
-  //       navigation(`${location.state ? location.state : "/"}`);
-  //     })
-  //     .catch(() => {
-  //     });
-  // };
+      toast.success("Invalid credential!", { position: "top-right" });
+      signInUser(email, password)
+      .then(() => {
+        // Signed in
+        toast.success("Login successfully......", { position: "top-right" });
+        navigation(`${location.state ? location.state : "/"}`);
+      })
+      .catch(() => {
+      });
+  };
 
   return (
     <Container>

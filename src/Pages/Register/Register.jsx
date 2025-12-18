@@ -6,13 +6,14 @@ import { updateProfile } from "firebase/auth";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import toast from "react-hot-toast";
-import { AuthContext } from "../../Context/AuthContext";
 import Container from "../../Components/Contaniner/Container";
 import { useForm } from "react-hook-form";
+import useAuth from "../../Hooks/useAuth";
 
 const SignUp = () => {
   //   const navigate = useNavigate();
-  const { createUser, user } = use(AuthContext);
+  const { createUser, user } = useAuth();
+  console.log(user);
   const [showPassword, setShowPassword] = useState(false);
 
   const navigation = useNavigate();
@@ -27,6 +28,9 @@ const SignUp = () => {
 
   const handleSignIn = (data) => {
     console.log(data);
+    const displayName = data.name;
+    const email = data.email;
+    const password = data.password;
 
     // vallidation
     // const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
@@ -38,22 +42,22 @@ const SignUp = () => {
     //   return;
     // }
 
-    // createUser(email, password)
-    //   .then((user) => {
-    //     updateProfile(user.user, { displayName, photoURL })
-    //       .then(() => {
-    //         toast.success("SignUp successfully......", {
-    //           position: "top-right",
-    //         });
-    //         navigation(`${location.state ? location.state : "/"}`);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.code, { position: "top-right" });
-    //   });
+    createUser(email, password)
+      .then((user) => {
+        updateProfile(user.user, { displayName})
+          .then(() => {
+            toast.success("SignUp successfully......", {
+              position: "top-right",
+            });
+            navigation(`${location.state ? location.state : "/"}`);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        toast.error(err.code, { position: "top-right" });
+      });
   };
 
   return (
@@ -72,6 +76,9 @@ const SignUp = () => {
                 placeholder="Name"
                 {...register("name", { required: true })}
               />
+              {errors.name?.type === "required" && (
+                <p className="text-red-500">Name is Reqiured!</p>
+              )}
 
               <label className="label ">Email</label>
               <input
@@ -80,12 +87,15 @@ const SignUp = () => {
                 placeholder="Email"
                 {...register("email", { required: true })}
               />
+              {errors.email?.type === "required" && (
+                <p className="text-red-500">Email is Reqiured!</p>
+              )}
 
               <label className="label">Role</label>
               <select
                 defaultValue="Select Role"
                 className="select w-full"
-                {...register("role", { required: true })}
+                {...register("role")}
               >
                 <option disabled={true}>Select Role</option>
                 <option>Student</option>
@@ -97,7 +107,11 @@ const SignUp = () => {
                   type={showPassword ? "text" : "password"}
                   className="input w-full"
                   placeholder="Password"
-                  {...register("password", { required: true })}
+                  {...register("password", {
+                    required: true,
+                    minLength: 6,
+                    pattern: /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/,
+                  })}
                 />
                 <span
                   onClick={() => setShowPassword(!showPassword)}
@@ -106,6 +120,20 @@ const SignUp = () => {
                   {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
                 </span>
               </div>
+              {errors.password?.type === "required" && (
+                <p className="text-red-500">Password is Reqiured!</p>
+              )}
+              {errors.password?.type === "minLength" && (
+                <p className="text-red-500">
+                  Password length must be 6 character or longer!
+                </p>
+              )}
+              {errors.password?.type === "pattern" && (
+                <p className="text-red-500">
+                  Password must contain at least one uppercase letter and one
+                  lowercase letter.
+                </p>
+              )}
               <button
                 type="submit"
                 className="btn bg-primary text-white mt-4 hover:bg-secondary border-none"
