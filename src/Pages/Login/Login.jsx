@@ -7,6 +7,7 @@ import Container from "../../Components/Contaniner/Container";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
+import GoogleSignIn from "../../Components/SocialSignIn/GoogleSignIn";
 
 const Login = () => {
   const { signInUser } = useAuth();
@@ -20,7 +21,6 @@ const Login = () => {
     const {
       register,
       handleSubmit,
-      watch,
       formState: { errors },
     } = useForm();
   
@@ -110,9 +110,9 @@ const Login = () => {
             </form>
           </div>
         </div>
-        {/* <div className="mt-10">
+        <div className="mt-10">
           <GoogleSignIn></GoogleSignIn>
-        </div> */}
+        </div>
       </div>
     </Container>
   );

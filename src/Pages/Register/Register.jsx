@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 
 import { Link, useLocation, useNavigate } from "react-router";
 import { updateProfile } from "firebase/auth";
@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import Container from "../../Components/Contaniner/Container";
 import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
+import GoogleSignIn from "../../Components/SocialSignIn/GoogleSignIn";
 
 const SignUp = () => {
   //   const navigate = useNavigate();
@@ -22,7 +23,6 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
@@ -31,16 +31,6 @@ const SignUp = () => {
     const displayName = data.name;
     const email = data.email;
     const password = data.password;
-
-    // vallidation
-    // const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
-    // if (!passwordRegex.test(password)) {
-    //   toast.error(
-    //     "Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long.",
-    //     { position: "top-right" }
-    //   );
-    //   return;
-    // }
 
     createUser(email, password)
       .then((user) => {
@@ -152,9 +142,9 @@ const SignUp = () => {
             </form>
           </div>
         </div>
-        {/* <div className="mt-10">
+        <div className="mt-10">
           <GoogleSignIn></GoogleSignIn>
-        </div> */}
+        </div>
       </div>
     </Container>
   );
