@@ -7,8 +7,8 @@
   name: "light";
   default: true; /* set as default */
 
-  --color-base-100: oklch(98% 0.02 240);
-  --color-base-200: oklch(95% 0.03 240);
+  --color-base-100: #FFFFFF;
+  --color-base-200: #F5F6FA;
   --color-base-300: oklch(92% 0.04 240);
   --color-base-content: oklch(20% 0.05 240);
   --color-primary: #86c240;

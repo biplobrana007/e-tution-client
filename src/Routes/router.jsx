@@ -4,6 +4,7 @@ import MainLayout from "../Layouts/MainLayout";
 import Home from "../Pages/Home/Home";
 import Tuitions from "../Pages/Tuition/Tuitions";
 import Tutors from "../Pages/Tutor/Tutors";
+import Login from "../Pages/Login/Login";
 
 const router = createBrowserRouter([
   {
@@ -24,5 +25,9 @@ const router = createBrowserRouter([
       }
     ],
   },
+  {
+    path:"login",
+    Component: Login
+  }
 ]);
 export default router;

@@ -49,14 +49,14 @@ const Navbar = () => {
               </ul>
             </div>
             <Link to="/">
-              <Logo className="text-3xl font-semibold"></Logo>
+              <Logo className="text-3xl font-semibold ml-3"></Logo>
             </Link>
           </div>
           <div className="navbar-center hidden lg:flex">
             <ul className="menu gap-2 menu-horizontal px-1">{links}</ul>
           </div>
           <div className="navbar-end">
-            <Link to="/login" className=" text-primary border px-5 py-2 rounded font-semibold">
+            <Link to="login" className=" text-primary border px-5 py-2 rounded font-semibold">
               Login
             </Link>
           </div>
