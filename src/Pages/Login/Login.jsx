@@ -76,7 +76,7 @@ const handleLogin =(e)=>{
                 No account?{" "}
                 <Link
                   className="font-bold text-[15px]  text-primary hover:underline ml-1"
-                  to="/auth/register" state={location.state}
+                  to="/register"
                 >
                   Register
                 </Link>

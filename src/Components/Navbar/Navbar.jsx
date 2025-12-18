@@ -56,7 +56,7 @@ const Navbar = () => {
             <ul className="menu gap-2 menu-horizontal px-1">{links}</ul>
           </div>
           <div className="navbar-end">
-            <Link to="login" className=" text-primary border px-5 py-2 rounded font-semibold">
+            <Link to="/login" className=" text-primary border px-5 py-2 rounded font-semibold">
               Login
             </Link>
           </div>
